@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Live RTSP Player: how it works</title>
+<!-- README diagram, 25 Oct 2026. Every step is from the code: backend/app.py (routes, HLS serving, cleaner start),
+     backend/stream_manager.py (FFmpeg command: -rtsp_transport tcp, libx264, aac, -f hls, delete_segments),
+     backend/cleaner.py (deletes .ts older than 30 s), frontend/src/App.jsx (hls.js player, react-rnd overlays,
+     percent coordinates, /api/overlays calls), backend/routes/overlays.py (MongoDB CRUD).
+     Render at 2x with headless Edge, window 800x372. -->
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&family=IBM+Plex+Mono:wght@400;500&display=block" rel="stylesheet">
+<style>
+  :root { --paper:#f4f1ea; --wash:#ebe6da; --ink:#1d1d1d; --dim:#5a5750; --red:#c4161c; --rule:#d9d3c5; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 800px; height: 372px; background: var(--paper); color: var(--ink); font-family: Archivo, Arial, sans-serif; overflow: hidden; }
+  .page { padding: 28px 36px 0; }
+  .label { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); }
+  h1 { font-weight: 800; font-size: 28px; letter-spacing: -0.02em; margin: 8px 0 20px; }
+  .row { display: flex; align-items: stretch; }
+  .arr { display: flex; align-items: center; color: var(--dim); font-size: 15px; width: 18px; justify-content: center; }
+  .card { flex: 1; background: #fbf9f4; border: 1.5px solid var(--rule); border-radius: 10px; padding: 14px 13px 12px; display: flex; flex-direction: column; min-height: 196px; }
+  .num { width: 22px; height: 22px; border-radius: 50%; background: var(--red); color: #fff; font-weight: 800; font-size: 12px; display: grid; place-items: center; box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--red); }
+  h2 { font-size: 15px; font-weight: 800; line-height: 1.2; margin: 12px 0 6px; letter-spacing: -0.01em; }
+  .what { font-size: 12.5px; line-height: 1.42; color: #3b3934; }
+  .who { margin-top: auto; padding-top: 10px; border-top: 1px solid var(--rule); font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dim); }
+  .who b { color: var(--red); font-weight: 500; }
+  .foot { margin: 16px 0 0; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--dim); }
+  .foot b { color: var(--ink); font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="label">Live RTSP Player &nbsp;·&nbsp; how it works</div>
+  <h1>From a camera stream to a browser tab</h1>
+  <div class="row">
+    <div class="card">
+      <div class="num">1</div>
+      <h2>Camera URL</h2>
+      <p class="what">You paste an RTSP address (the link an IP camera gives out) and press Start Stream.</p>
+      <div class="who">Done by <b>you</b></div>
+    </div>
+    <div class="arr">→</div>
+    <div class="card">
+      <div class="num">2</div>
+      <h2>Convert</h2>
+      <p class="what">The Flask server starts FFmpeg, which pulls the stream and re-encodes it into HLS: a playlist plus 2-second video chunks.</p>
+      <div class="who">Done by <b>FFmpeg</b></div>
+    </div>
+    <div class="arr">→</div>
+    <div class="card">
+      <div class="num">3</div>
+      <h2>Serve</h2>
+      <p class="what">Flask serves the playlist and chunks. A background job deletes chunks older than 30 seconds.</p>
+      <div class="who">Done by <b>Flask</b></div>
+    </div>
+    <div class="arr">→</div>
+    <div class="card">
+      <div class="num">4</div>
+      <h2>Play and edit</h2>
+      <p class="what">hls.js plays the stream in the page. You drag and resize text and logo boxes on top; each change is saved to MongoDB.</p>
+      <div class="who">Done by <b>React</b></div>
+    </div>
+  </div>
+  <p class="foot"><b>Overlay positions are saved as percentages</b> of the video frame, so they stay in place at any player size.</p>
+</div>
+</body>
+</html>

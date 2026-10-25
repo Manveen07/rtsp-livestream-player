@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Live RTSP Player: demo video thumbnail</title>
+<!-- README thumbnail, 25 Oct 2026. demo-frame.jpg is a frame (t = 22 s) of the repo's own assets/rstptohsl.gif,
+     cropped below the URL bar. Render at 2x with headless Edge, window 800x340. -->
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&display=block" rel="stylesheet">
+<style>
+  :root { --paper:#f4f1ea; --wash:#ebe6da; --ink:#1d1d1d; --dim:#5a5750; --red:#c4161c; --rule:#d9d3c5; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 800px; height: 340px; background: var(--paper); font-family: Archivo, Arial, sans-serif; overflow: hidden; }
+  .wrap { padding: 14px 14px 0; }
+  .shot { position: relative; width: 772px; height: 272px; border-radius: 10px; overflow: hidden; border: 1.5px solid var(--rule); }
+  .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .shade { position: absolute; inset: 0; background: rgba(10, 12, 20, 0.18); }
+  .play { position: absolute; left: 48.6%; top: 45%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .btn { width: 74px; height: 74px; border-radius: 50%; background: var(--red); display: grid; place-items: center;
+         box-shadow: 0 0 0 4px rgba(255,255,255,0.92), 0 8px 24px rgba(0,0,0,0.35); }
+  .btn::after { content: ""; margin-left: 7px; border-style: solid; border-width: 15px 0 15px 25px; border-color: transparent transparent transparent #fff; }
+  .tag { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+         background: rgba(244, 241, 234, 0.95); color: var(--ink); padding: 6px 12px; border-radius: 999px; }
+  .foot { display: flex; justify-content: space-between; align-items: center; padding: 0 4px; height: 48px;
+          font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: var(--dim); letter-spacing: 0.04em; }
+  .foot b { color: var(--ink); font-weight: 500; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="shot">
+    <img src="demo-frame.jpg" alt="">
+    <div class="shade"></div>
+    <div class="play"><div class="btn"></div><div class="tag">Watch the demo</div></div>
+  </div>
+  <div class="foot"><span><b>Live RTSP Player</b> &nbsp;·&nbsp; text and logo overlays on a live camera stream</span><span>YouTube</span></div>
+</div>
+</body>
+</html>
